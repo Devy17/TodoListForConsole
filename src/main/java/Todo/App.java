@@ -99,7 +99,7 @@ public class App {
 
         int todoPriority;
         do {
-            System.out.println("What is that To-do's priority? (1 ~ 3)");
+            System.out.println("What is that To-do's priority? " + getEveryColorCircle());
             todoPriority = sc.nextInt();
             sc.nextLine();
         } while(todoPriority < 1 || todoPriority > 3);
@@ -128,7 +128,7 @@ public class App {
         String newContent = sc.nextLine();
         int newPriority;
         do {
-            System.out.println("Write down your new To-do's priority. (1 ~ 3)");
+            System.out.println("Write down your new To-do's priority. " + getEveryColorCircle());
             newPriority = sc.nextInt();
             sc.nextLine();
         } while(newPriority < 1 || newPriority > 3);
@@ -155,9 +155,17 @@ public class App {
     private static void printTodos(List<Todo> Todos) {
         SortingForPriority(Todos);
 
+        System.out.println(
+                "In order of priority "
+                + getColorCircle(1) + " "
+                + getColorCircle(2) + " "
+                + getColorCircle(3) + " "
+        );
         System.out.println("==========");
         for(int i = 1; i <= Todos.size(); i++) {
-            System.out.println(i + ". " + Todos.get(i-1).getContent() + " --- priority : " + Todos.get(i-1).getPriority());
+            System.out.println(
+                    getColorCircle(Todos.get(i-1).getPriority()) + " " + i + ". " + Todos.get(i-1).getContent())
+            ;
         }
         System.out.println("==========");
     }
@@ -171,8 +179,29 @@ public class App {
             } else if(todo.getPriority() == 3) {
                 Todos.remove(todo);
                 Todos.add(Todos.size(),todo);
-                i--;
+                if(i != Todos.size() - 1){
+                    i--;
+                }
             }
         }
     }
+
+    private static String getColorCircle(int priority) {
+        String color = Colors.black;
+
+        if (priority == 1) {
+            color = Colors.red;
+        } else if (priority == 2) {
+            color = Colors.yellow;
+        } else { // 3
+            color = Colors.green;
+        }
+
+        return color + "\u25CF" + Colors.exit;
+    }
+
+    private static String getEveryColorCircle() {
+        return "(1 : " + getColorCircle(1) + ", 2 : "+ getColorCircle(2) +", 3 : " + getColorCircle(3) + ")";
+    }
+
 }
